@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface StepProps {
   stepNumber: number;
@@ -8,13 +8,20 @@ interface StepProps {
 }
 
 const Step: React.FC<StepProps> = ({ stepNumber, label, isActive }) => (
-  <div className="flex items-center gap-2">
-    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${isActive ? 'bg-primary text-white' : 'bg-gray-200 text-text-secondary'}`}>
+  <div className="relative flex items-center gap-2 z-10">
+    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${isActive ? 'text-white' : 'bg-gray-200 text-text-secondary'}`}>
       {stepNumber}
     </div>
-    <span className={`font-semibold transition-colors ${isActive ? 'text-primary' : 'text-text-secondary'}`}>
+    <span className={`font-semibold transition-colors duration-300 ${isActive ? 'text-primary' : 'text-text-secondary'}`}>
       {label}
     </span>
+    {isActive && (
+      <motion.div 
+        className="absolute -z-10 w-8 h-8 rounded-full bg-primary"
+        layoutId="active-step-indicator"
+        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+      />
+    )}
   </div>
 );
 
@@ -50,11 +57,9 @@ const Header: React.FC<HeaderProps> = ({ currentStep }) => {
         </div>
         
         {/* Stepper */}
-        <div className="flex items-center gap-2 sm:gap-4 self-center sm:self-auto">
+        <div className="flex items-center gap-2 sm:gap-4 self-center sm:self-auto p-1 bg-gray-100 rounded-full">
           <Step stepNumber={1} label="Input" isActive={currentStep === 1} />
-          <div className="w-4 sm:w-8 h-px bg-gray-300"></div>
           <Step stepNumber={2} label="Detail" isActive={currentStep === 2} />
-           <div className="w-4 sm:w-8 h-px bg-gray-300"></div>
           <Step stepNumber={3} label="Result" isActive={currentStep === 3} />
         </div>
       </div>

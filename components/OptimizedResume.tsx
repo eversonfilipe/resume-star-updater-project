@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { CopyIcon, CheckIcon } from './icons';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -79,7 +79,17 @@ const OptimizedResume: React.FC<OptimizedResumeProps> = ({ content, isLoading, o
             className="absolute top-2 right-2 p-2 rounded-md bg-gray-100 hover:bg-gray-200 text-text-secondary hover:text-primary transition-all duration-200"
             aria-label="Copy to clipboard"
           >
-            {isCopied ? <CheckIcon /> : <CopyIcon />}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={isCopied ? 'check' : 'copy'}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isCopied ? <CheckIcon /> : <CopyIcon />}
+              </motion.span>
+            </AnimatePresence>
           </button>
         )}
         <div className="p-4">

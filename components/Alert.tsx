@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { motion } from 'framer-motion';
 
 // Define the types of alerts available
 type AlertType = 'error' | 'warning' | 'success';
@@ -41,10 +41,17 @@ const Alert: React.FC<AlertProps> = ({ type, message }) => {
   }
 
   return (
-    <div className={`${baseClasses} ${typeClasses[type]}`} role="alert">
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.3 }}
+      className={`${baseClasses} ${typeClasses[type]}`} 
+      role="alert"
+    >
       <Icon className="h-6 w-6 flex-shrink-0" />
       <span className="font-semibold">{message}</span>
-    </div>
+    </motion.div>
   );
 };
 

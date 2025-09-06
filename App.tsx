@@ -1,5 +1,5 @@
-
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import ResumeInput from './components/ResumeInput';
 import OptimizedResume from './components/OptimizedResume';
@@ -19,25 +19,14 @@ type AppStep = 1 | 2 | 3;
  * for resume optimization, manages all application state, and handles API interactions.
  */
 const App: React.FC = () => {
-  // State for the current step in the process (1: Input, 2: Detail, 3: Result)
   const [currentStep, setCurrentStep] = useState<AppStep>(1);
-  // State for the user's raw resume input
   const [rawResume, setRawResume] = useState<string>('');
-  // State for experiences extracted by the AI and detailed by the user
   const [experiences, setExperiences] = useState<Experience[]>([]);
-  // State for the final AI-optimized resume output
   const [optimizedResume, setOptimizedResume] = useState<string>('');
-  // State to track loading status for different API calls
   const [isLoading, setIsLoading] = useState({ extracting: false, generating: false });
-  // State to store any error messages
   const [error, setError] = useState<string | null>(null);
-  // State for the user-provided Google Gemini API Key
   const [apiKey, setApiKey] = useState<string>(() => localStorage.getItem('gemini-api-key') || '');
 
-
-  /**
-   * Resets the entire application state to its initial values, but preserves the API key.
-   */
   const handleReset = useCallback(() => {
     setCurrentStep(1);
     setRawResume('');
@@ -47,18 +36,12 @@ const App: React.FC = () => {
     setIsLoading({ extracting: false, generating: false });
   }, []);
   
-  /**
-   * Saves the user's API key to state and local storage.
-   */
   const handleSaveApiKey = useCallback((key: string) => {
     const trimmedKey = key.trim();
     setApiKey(trimmedKey);
     localStorage.setItem('gemini-api-key', trimmedKey);
   }, []);
 
-  /**
-   * Step 1: Extracts professional experiences from the raw resume.
-   */
   const handleExtractExperiences = useCallback(async () => {
     setError(null);
     if (!apiKey) {
@@ -78,7 +61,6 @@ const App: React.FC = () => {
         setIsLoading(prev => ({ ...prev, extracting: false }));
         return;
       }
-      // Map extracted data to the full Experience structure with unique IDs
       setExperiences(extracted.map((exp, index) => ({
         ...exp,
         id: index,
@@ -92,64 +74,67 @@ const App: React.FC = () => {
     }
   }, [rawResume, isLoading.extracting, apiKey]);
 
-  /**
-   * Callback for the StarForm to update the state.
-   */
   const handleUpdateExperience = useCallback((id: number, field: keyof Experience, value: string) => {
     setExperiences(prev => 
       prev.map(exp => exp.id === id ? { ...exp, [field]: value } : exp)
     );
   }, []);
 
-  /**
-   * Step 2: Generates the final resume using the detailed STAR information.
-   */
   const handleGenerateFinalResume = useCallback(async () => {
     setError(null);
     if (!apiKey) {
       setError("API key is missing. Cannot generate resume.");
-      setCurrentStep(2); // Go back to the form
+      setCurrentStep(2);
       return;
     }
     if (isLoading.generating) return;
     setIsLoading(prev => ({ ...prev, generating: true }));
-    setCurrentStep(3); // Move to final view to show loading state there
+    setCurrentStep(3);
 
     try {
       const result = await generateFinalResume(rawResume, experiences, apiKey);
       setOptimizedResume(result);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred during generation.');
-       // If generation fails, send user back to the form to try again
       setCurrentStep(2);
     } finally {
       setIsLoading(prev => ({ ...prev, generating: false }));
     }
   }, [rawResume, experiences, isLoading.generating, apiKey]);
+
+  // Animation variants for step transitions
+  const stepVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+  };
   
-  /**
-   * Renders the main content based on the current step.
-   */
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 1:
         return (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            <div className="flex flex-col gap-4">
-              <ResumeInput value={rawResume} onChange={setRawResume} />
-              <PrimaryButton onClick={handleExtractExperiences} isLoading={isLoading.extracting} disabled={!apiKey || !rawResume.trim()}>
-                Extract Experiences & Proceed
-              </PrimaryButton>
-              {error && <Alert type="error" message={error} />}
-              {!apiKey && <Alert type="warning" message="Please set your API key above to enable functionality." />}
+          <motion.div key="step1" variants={stepVariants} initial="hidden" animate="visible" exit="exit" transition={{ duration: 0.5 }}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+              <div className="flex flex-col gap-4">
+                <ResumeInput value={rawResume} onChange={setRawResume} />
+                <PrimaryButton onClick={handleExtractExperiences} isLoading={isLoading.extracting} disabled={!apiKey || !rawResume.trim()}>
+                  Extract Experiences & Proceed
+                </PrimaryButton>
+                <AnimatePresence>
+                  {error && <Alert type="error" message={error} />}
+                  {!apiKey && <Alert type="warning" message="Please set your API key above to enable functionality." />}
+                </AnimatePresence>
+              </div>
+              <OptimizedResume content="" isLoading={false} onStartOver={handleReset} />
             </div>
-            <OptimizedResume content="" isLoading={false} onStartOver={handleReset} />
-          </div>
+          </motion.div>
         );
       case 2:
         return (
-          <>
-            {error && <div className="max-w-4xl mx-auto mb-4"><Alert type="error" message={error} /></div>}
+          <motion.div key="step2" variants={stepVariants} initial="hidden" animate="visible" exit="exit" transition={{ duration: 0.5 }}>
+            <AnimatePresence>
+                {error && <div className="max-w-4xl mx-auto mb-4"><Alert type="error" message={error} /></div>}
+            </AnimatePresence>
             <StarForm 
               experiences={experiences} 
               onUpdate={handleUpdateExperience}
@@ -157,17 +142,17 @@ const App: React.FC = () => {
               onBack={() => { setError(null); setCurrentStep(1); }}
               isLoading={isLoading.generating}
             />
-          </>
+          </motion.div>
         );
       case 3:
          return (
-             <div className="max-w-4xl mx-auto w-full">
+             <motion.div key="step3" className="max-w-4xl mx-auto w-full" variants={stepVariants} initial="hidden" animate="visible" exit="exit" transition={{ duration: 0.5 }}>
                 <OptimizedResume 
                     content={optimizedResume} 
                     isLoading={isLoading.generating}
                     onStartOver={handleReset} 
                 />
-             </div>
+             </motion.div>
         );
       default:
         return null;
@@ -178,10 +163,17 @@ const App: React.FC = () => {
     <div className="flex flex-col min-h-screen text-text-primary">
       <Header currentStep={currentStep} />
       <main className="flex-grow container mx-auto p-4 md:p-8">
-        <div className="max-w-4xl mx-auto w-full mb-8 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="max-w-4xl mx-auto w-full mb-8 p-6 bg-white border border-gray-200 rounded-lg shadow-sm"
+        >
             <ApiKeyInput apiKey={apiKey} onSave={handleSaveApiKey} />
-        </div>
-        {renderCurrentStep()}
+        </motion.div>
+        <AnimatePresence mode="wait">
+          {renderCurrentStep()}
+        </AnimatePresence>
       </main>
       <Footer />
     </div>

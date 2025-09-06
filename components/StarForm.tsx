@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Experience } from '../services/geminiService';
 import PrimaryButton from './PrimaryButton';
 
@@ -45,6 +45,23 @@ const StarForm: React.FC<StarFormProps> = ({ experiences, onUpdate, onSubmit, on
     const isFormComplete = experiences.every(
         exp => exp.situation.trim() && exp.task.trim() && exp.action.trim() && exp.result.trim()
     );
+    
+    // Animation variants for the container and items
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 }
+    };
+
 
     return (
         <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg border border-gray-200 max-w-4xl mx-auto">
@@ -59,9 +76,18 @@ const StarForm: React.FC<StarFormProps> = ({ experiences, onUpdate, onSubmit, on
                 Provide details for each role using the STAR method. This data will be used to build impactful, professional descriptions.
             </p>
 
-            <div className="space-y-8">
+            <motion.div 
+                className="space-y-8"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+            >
                 {experiences.map((exp) => (
-                    <div key={exp.id} className="p-4 border border-gray-200 rounded-lg bg-light-bg/50">
+                    <motion.div 
+                        key={exp.id} 
+                        className="p-4 border border-gray-200 rounded-lg bg-light-bg/50"
+                        variants={itemVariants}
+                    >
                         <h3 className="text-lg font-semibold text-primary">{exp.jobTitle}</h3>
                         <p className="text-md text-text-secondary mb-4 font-serif italic">{exp.company}</p>
 
@@ -91,9 +117,9 @@ const StarForm: React.FC<StarFormProps> = ({ experiences, onUpdate, onSubmit, on
                                 placeholder="What were the quantifiable outcomes?"
                             />
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
-            </div>
+            </motion.div>
             
             <div className="mt-8">
                  <PrimaryButton onClick={onSubmit} isLoading={isLoading} disabled={!isFormComplete}>

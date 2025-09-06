@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { motion } from 'framer-motion';
 
 // Define the props interface for the component
 interface PrimaryButtonProps {
@@ -21,10 +21,13 @@ interface PrimaryButtonProps {
  */
 const PrimaryButton: React.FC<PrimaryButtonProps> = ({ onClick, isLoading, children, disabled = false }) => {
   return (
-    <button
+    <motion.button
       onClick={onClick}
       disabled={isLoading || disabled}
       className="w-full flex items-center justify-center bg-primary text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 17 }}
     >
       {isLoading ? (
         <>
@@ -37,7 +40,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({ onClick, isLoading, child
       ) : (
         children
       )}
-    </button>
+    </motion.button>
   );
 };
 
