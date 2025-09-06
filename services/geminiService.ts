@@ -15,24 +15,30 @@ export interface Experience {
 // Partial experience for the extraction step
 export type ExtractedExperience = Omit<Experience, 'id' | 'situation' | 'task' | 'action' | 'result'>;
 
+/**
+ * Creates a GoogleGenAI instance with the provided API key.
+ * @param {string} apiKey - The user's Google Gemini API key.
+ * @returns {GoogleGenAI} - An instance of the GoogleGenAI client.
+ * @throws {Error} - Throws an error if the API key is not provided.
+ */
+const getAiClient = (apiKey: string): GoogleGenAI => {
+    if (!apiKey) {
+        throw new Error("API key is not configured. Please provide a valid key.");
+    }
+    return new GoogleGenAI({ apiKey });
+};
 
-const apiKey = process.env.API_KEY;
-if (!apiKey) {
-  console.warn("API_KEY environment variable not found.");
-}
-const ai = new GoogleGenAI({ apiKey: apiKey || "" });
 
 /**
  * Extracts job experiences from a raw resume text using the Gemini API.
  * 
  * @param {string} rawResume - The user's raw resume text.
+ * @param {string} apiKey - The user's Google Gemini API key.
  * @returns {Promise<ExtractedExperience[]>} - A promise that resolves to an array of extracted experiences.
  * @throws {Error} - Throws an error if the API call fails or returns invalid JSON.
  */
-export const extractExperiencesFromResume = async (rawResume: string): Promise<ExtractedExperience[]> => {
-  if (!apiKey) {
-    throw new Error("API key is not configured. The application cannot connect to the optimization service.");
-  }
+export const extractExperiencesFromResume = async (rawResume: string, apiKey: string): Promise<ExtractedExperience[]> => {
+  const ai = getAiClient(apiKey);
   
   const prompt = `
     Analyze the provided resume text. Your task is to identify and extract all distinct professional experience entries.
@@ -67,7 +73,6 @@ export const extractExperiencesFromResume = async (rawResume: string): Promise<E
     });
 
     const jsonText = response.text.trim();
-    // A simple check to handle potentially empty or non-JSON responses gracefully
     if (!jsonText || !jsonText.startsWith('[')) {
         return [];
     }
@@ -81,7 +86,10 @@ export const extractExperiencesFromResume = async (rawResume: string): Promise<E
 
   } catch (error) {
     console.error("Error calling Gemini API for experience extraction:", error);
-    throw new Error("Failed to extract experiences from the resume. The format might be unconventional. Please try again.");
+    if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('invalid'))) {
+         throw new Error("Your API Key is not valid. Please check it and try again.");
+    }
+    throw new Error("Failed to extract experiences from the resume. The format might be unconventional or the API key is invalid.");
   }
 };
 
@@ -90,15 +98,13 @@ export const extractExperiencesFromResume = async (rawResume: string): Promise<E
  * 
  * @param {string} rawResume - The user's original resume text (for context and other sections).
  * @param {Experience[]} experiences - An array of experiences with user-filled STAR details.
+ * @param {string} apiKey - The user's Google Gemini API key.
  * @returns {Promise<string>} - A promise that resolves to the final, optimized resume text.
  * @throws {Error} - Throws an error if the API call fails.
  */
-export const generateFinalResume = async (rawResume: string, experiences: Experience[]): Promise<string> => {
-  if (!apiKey) {
-    throw new Error("API key is not configured.");
-  }
+export const generateFinalResume = async (rawResume: string, experiences: Experience[], apiKey: string): Promise<string> => {
+  const ai = getAiClient(apiKey);
 
-  // Convert the structured experience data into a readable string for the prompt
   const experiencesText = experiences.map(exp => `
     - Job Title: ${exp.jobTitle}
       Company: ${exp.company}
@@ -147,6 +153,9 @@ export const generateFinalResume = async (rawResume: string, experiences: Experi
 
   } catch (error) {
     console.error("Error calling Gemini API for final resume generation:", error);
-    throw new Error("Failed to generate the final resume. Please check your connection and try again.");
+    if (error instanceof Error && (error.message.includes('API key not valid') || error.message.includes('invalid'))) {
+         throw new Error("Your API Key is not valid. Please check it and try again.");
+    }
+    throw new Error("Failed to generate the final resume. Please check your connection or API key and try again.");
   }
 };

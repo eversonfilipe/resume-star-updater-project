@@ -1,20 +1,60 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# CV Optimizado - STAR + ATS
 
-# Run and deploy your AI Studio app
+An open-source, AI-powered tool designed to help professionals optimize their resumes. This application refactors raw resume text, structuring professional experiences into the powerful STAR (Situation, Task, Action, Result) method, and ensures it is optimized for modern Applicant Tracking Systems (ATS).
 
-This contains everything you need to run your app locally.
+![Application Screenshot](https://via.placeholder.com/800x400.png?text=App+UI+Screenshot)
 
-View your app in AI Studio: https://ai.studio/apps/drive/1lsQtSnko1l5eaM6JlCo_eGb9bhNGYPJ1
+---
 
-## Run Locally
+## ✨ Features
 
-**Prerequisites:**  Node.js
+- **Multi-Step Guided Process**: A clear, three-step workflow (Input -> Detail -> Result) that guides you through the optimization process.
+- **AI-Powered Experience Extraction**: Automatically identifies professional roles and companies from your raw resume text.
+- **Structured STAR Method Input**: Provides a dedicated form to input the Situation, Task, Action, and Result for each job, eliminating AI hallucinations and ensuring factual accuracy.
+- **ATS & Human-Friendly Output**: Generates a final resume with professionally worded, achievement-oriented bullet points that appeal to both automated systems and human recruiters.
+- **Secure & Private**: Your API key and resume data are processed entirely in your browser. Nothing is stored on a server.
+- **Modern & Responsive UI**: Clean, intuitive, and accessible interface built with modern web technologies.
 
+## 💻 Technology Stack
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- **Frontend**: React, TypeScript
+- **Styling**: Tailwind CSS
+- **AI**: Google Gemini API (`@google/genai`)
+- **Build**: Vite (as implied by the setup)
+
+## 🚀 Getting Started
+
+To run this project locally, follow these steps:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/cv-optimizado.git
+    cd cv-optimizado
+    ```
+
+2.  **Install dependencies:**
+    This project uses modern web modules and does not require a separate `npm install` step if you are using a compatible local server.
+
+3.  **Set up your API Key:**
+    The application requires a Google Gemini API key to function.
+    - Get your key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+    - The application provides a secure input field to enter your key, which is then stored in your browser's local storage.
+
+4.  **Run the development server:**
+    You can use a simple local server to run the `index.html` file. For example, using Python:
+    ```bash
+    python -m http.server
+    ```
+    Or with the VS Code "Live Server" extension.
+
+## 🤝 Contributing
+
+Contributions are welcome! Whether you're fixing a bug, improving a feature, or suggesting a new one, your help is appreciated. Please read our [Contributing Guidelines](./docs/CONTRIBUTING.md) to get started.
+
+## 📄 License
+
+This project is open-source and available under the MIT License.
+
+## ❤️ Acknowledgements
+
+This application was created by **Éverson Filipe Campos da Silva Moura**. See the [CREDITS.md](./CREDITS.md) file for more information.
