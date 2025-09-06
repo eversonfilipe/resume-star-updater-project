@@ -4,24 +4,26 @@
 
 An open-source, AI-powered tool designed to help professionals optimize their resumes. This application refactors raw resume text, structuring professional experiences into the powerful STAR (Situation, Task, Action, Result) method, and ensures it is optimized for modern Applicant Tracking Systems (ATS).
 
-<img width="1920" height="1080" alt="Captura de tela 2025-09-05 233323" src="https://github.com/user-attachments/assets/7c2ebc2f-2c64-4b8f-b240-bc2e8f5e27a9" alt="Print da tela inicial da aplicação open-source."/>
+![Application Screenshot Alt Text](https://via.placeholder.com/800x400.png?text=CV+Optimizer+UI)
 
 ---
 
 ## ✨ Features
 
 - **Multi-Step Guided Process**: A clear, three-step workflow (Input -> Detail -> Result) that guides you through the optimization process.
-- **AI-Powered Experience Extraction**: Automatically identifies professional roles and companies from your raw resume text.
-- **Structured STAR Method Input**: Provides a dedicated form to input the Situation, Task, Action, and Result for each job, eliminating AI hallucinations and ensuring factual accuracy.
+- **AI-Powered Experience Extraction**: Automatically identifies professional roles and companies from your raw resume text using the Google Gemini API.
+- **Structured STAR Method Input**: Provides a dedicated form to input the Situation, Task, Action, and Result for each job, ensuring factual accuracy and high-quality outputs.
 - **ATS & Human-Friendly Output**: Generates a final resume with professionally worded, achievement-oriented bullet points that appeal to both automated systems and human recruiters.
-- **Secure & Private**: Your API key and resume data are processed entirely in your browser. Nothing is stored on a server.
-- **Modern & Responsive UI**: Clean, intuitive, and accessible interface built with modern web technologies.
+- **Enhanced User Experience**: A clean, intuitive, and responsive interface with smooth animations powered by Framer Motion.
+- **Secure & Private by Design**: All processing happens in your browser. Your resume data and API key are never sent to or stored on any server.
+- **Developer-Friendly & Open Source**: The project is fully open-source, with a professionally modularized codebase and in-depth documentation (in English and Portuguese) to encourage community contributions.
 
 ## 💻 Technology Stack
 
 - **Frontend**: React, TypeScript
 - **Styling**: Tailwind CSS
 - **AI**: Google Gemini API (`@google/genai`)
+- **Animations**: Framer Motion
 - **Build**: Vite (as implied by the setup)
 
 ## 🚀 Getting Started

@@ -1,5 +1,5 @@
 {
-  "name": "CV Optimizado - STAR + ATS",
-  "description": "An application that helps young professionals adapt their resumes for job descriptions, optimizing them for ATS and rewriting experiences into the STAR model (Situation, Task, Action, Result).",
+  "name": "Copy of CV Optimizado - STAR + ATS",
+  "description": "An open-source AI-powered platform to generate professional resumes using the STAR's method. Made by Éverson FIlipe and inspired by Joule's Mentorships lessons.",
   "requestFramePermissions": []
 }
