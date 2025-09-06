@@ -1,11 +1,10 @@
-
 import React from 'react';
 
 /**
  * Footer Component
  * 
  * Renders the footer section of the application. It includes the credits
- * for the application's creator as specified in the user request.
+ * for the application's creator and a link to the open-source repository.
  */
 const Footer: React.FC = () => {
   return (
@@ -20,7 +19,17 @@ const Footer: React.FC = () => {
             Éverson Filipe Campos da Silva Moura
           </a>.
         </p>
-        <p>Feel free to contribute or provide feedback.</p>
+        <p>
+            Feel free to contribute on{' '}
+            <a 
+                href="https://github.com/eversonfilipe/resume-star-updater-project"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-primary hover:underline"
+            >
+                GitHub
+            </a>.
+        </p>
       </div>
     </footer>
   );

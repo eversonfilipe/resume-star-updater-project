@@ -6,7 +6,7 @@ Obrigado por considerar contribuir para o projeto **CV Optimizado - STAR + ATS**
 
 ### Reportando Bugs
 
-- **Verifique as Issues Existentes**: Antes de submeter um novo relatório de bug, por favor, verifique o [rastreador de issues](https://github.com/your-username/cv-optimizado/issues) para ver se o bug já foi reportado.
+- **Verifique as Issues Existentes**: Antes de submeter um novo relatório de bug, por favor, verifique o [rastreador de issues](https://github.com/eversonfilipe/resume-star-updater-project/issues) para ver se o bug já foi reportado.
 - **Forneça Detalhes**: Se não encontrar uma issue existente, por favor, abra uma nova. Certifique-se de incluir um título claro, uma descrição detalhada do bug, os passos para reproduzi-lo e quaisquer capturas de tela relevantes.
 
 ### Sugerindo Melhorias

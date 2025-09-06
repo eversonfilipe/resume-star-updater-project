@@ -1,8 +1,10 @@
 # CV Optimizado - STAR + ATS
 
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github)](https://github.com/eversonfilipe/resume-star-updater-project)
+
 An open-source, AI-powered tool designed to help professionals optimize their resumes. This application refactors raw resume text, structuring professional experiences into the powerful STAR (Situation, Task, Action, Result) method, and ensures it is optimized for modern Applicant Tracking Systems (ATS).
 
-![Application Screenshot](https://via.placeholder.com/800x400.png?text=App+UI+Screenshot)
+![Application Screenshot Alt Text](https://via.placeholder.com/800x400.png?text=CV+Optimizer+UI)
 
 ---
 
@@ -28,8 +30,8 @@ To run this project locally, follow these steps:
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/cv-optimizado.git
-    cd cv-optimizado
+    git clone https://github.com/eversonfilipe/resume-star-updater-project.git
+    cd resume-star-updater-project
     ```
 
 2.  **Install dependencies:**

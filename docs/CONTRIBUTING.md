@@ -6,7 +6,7 @@ Thank you for considering contributing to the **CV Optimizado - STAR + ATS** pro
 
 ### Reporting Bugs
 
-- **Check Existing Issues**: Before submitting a new bug report, please check the [issue tracker](https://github.com/your-username/cv-optimizado/issues) to see if the bug has already been reported.
+- **Check Existing Issues**: Before submitting a new bug report, please check the [issue tracker](https://github.com/eversonfilipe/resume-star-updater-project/issues) to see if the bug has already been reported.
 - **Provide Details**: If you can't find an existing issue, please open a new one. Be sure to include a clear title, a detailed description of the bug, steps to reproduce it, and any relevant screenshots.
 
 ### Suggesting Enhancements
