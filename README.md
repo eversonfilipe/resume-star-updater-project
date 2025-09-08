@@ -4,7 +4,7 @@
 
 An open-source, AI-powered tool designed to help professionals optimize their resumes. This application refactors raw resume text, structuring professional experiences into the powerful STAR (Situation, Task, Action, Result) method, and ensures it is optimized for modern Applicant Tracking Systems (ATS).
 
-![Application Screenshot Alt Text](https://via.placeholder.com/800x400.png?text=CV+Optimizer+UI)
+<img width="1920" height="1080" alt="Captura de tela 2025-09-05 233323" src="https://github.com/user-attachments/assets/e88ed0e2-5d81-400f-af49-01b2faa41ac8" alt="Imagem ilustrativa de um print da tela principal e primária da aplicação." />
 
 ---
 
